@@ -30,7 +30,7 @@ export function Navbar() {
       </div>
 
       {/* Main Navbar */}
-      <nav className="bg-white shadow-sm">
+      <nav className="bg-white shadow-sm backdrop-blur-md bg-white/80 shadow-md z-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Hamburger Menu Button */}
@@ -52,6 +52,14 @@ export function Navbar() {
             </div>
 
             {/* Shopping Cart Icon */}
+             <button
+              className="p-2 hover:bg-gray-50 rounded  transition-colors"
+              aria-label="Shopping Cart"
+            >
+              <i class="fa-solid fa-lg fa-users"></i>
+              
+            </button>
+
             <button
               className="p-2 hover:bg-gray-50 rounded transition-colors"
               aria-label="Shopping Cart"
