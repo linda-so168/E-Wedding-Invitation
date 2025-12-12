@@ -1,3 +1,4 @@
+// src/components/footer.jsx
 import React from "react";
 
 // Make sure to import your images

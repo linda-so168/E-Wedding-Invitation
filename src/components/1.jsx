@@ -1,3 +1,4 @@
+// src/components/1.jsx
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar, Clock, Users, Camera, Gift, Music, Utensils } from 'lucide-react';

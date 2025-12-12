@@ -1,3 +1,4 @@
+// src/page/home.jsx
 import React, { useState, useEffect } from "react";
 import mylogo from "../assets/invitattion_front/logo-web.png";
 import Loading from "../components/Loading";
@@ -12,9 +13,15 @@ import Homepic5 from "../assets/invitattion_front/homepic5.jpg";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
+  // Toggle functions
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
   };
 
   return (
@@ -49,14 +56,40 @@ export function Navbar() {
               </div>
             </div>
 
-            {/* Shopping Cart Icon */}
-            <button
-              className="p-2 hover:bg-gray-50 rounded transition-colors"
-              aria-label="Shopping Cart"
-            >
-              <i className="fa-solid fa-lg fa-users"></i>
-            </button>
+            {/* User Icon with Dropdown */}
+            <div className="relative">
+              <button
+                onClick={toggleUserMenu}
+                className="p-2 hover:bg-gray-50 rounded transition-colors"
+                aria-label="User Menu"
+              >
+                <i className="fa-solid fa-lg fa-users"></i>
+              </button>
 
+              {/* Dropdown Menu - Shows when user clicks icon */}
+              {isUserMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                  <Link
+                    to="/signin"
+                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    <i className="fa-solid fa-user-plus mr-2"></i>
+                  Register
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    <i className="fa-solid fa-sign-in-alt mr-2"></i>
+                    Login
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Shopping Cart Icon */}
             <button
               className="p-2 hover:bg-gray-50 rounded transition-colors"
               aria-label="Shopping Cart"
@@ -239,12 +272,10 @@ function MenuItem({ text, hasSubmenu = false, submenuItems = [] }) {
   );
 }
 
-// HOME COMPONENT (ONLY ONE!)
+// HOME COMPONENT
 export default function Home() {
-  // Loading state
   const [isLoading, setIsLoading] = useState(true);
 
-  // Loading timer
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -252,15 +283,12 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Show loading
   if (isLoading) {
     return <Loading />;
   }
 
-  // Main content
   return (
     <div className="pt-52 min-h-screen bg-gray-50 px-4 items-center justify-center flex">
-      {/* Header */}
       <header className="grid grid-cols-2 items-center text-center gap-[100px]">
         <div className="mb-20 font-stretch-expanded text-shadow-amber-200 text-lg md:text-2xl lg:text-4xl">
           <p>
@@ -270,7 +298,6 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Image Row */}
         <div className="flex flex-wrap items-center justify-center gap-4">
           <img src={Homepic} className="w-40 h-auto rounded" alt="Home pic" />
           <img src={Homepic1} className="w-40 h-auto rounded" alt="Home pic 1" />

@@ -1,3 +1,4 @@
+// src/components/1.jsx
 import React from "react";
 
 export function ProductCard({ product }) {

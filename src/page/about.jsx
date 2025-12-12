@@ -1,4 +1,4 @@
-// About.jsx
+// src/page/about.jsx
 import "../App.css";
 import { useState } from "react";
 import React from "react";

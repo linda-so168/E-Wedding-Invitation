@@ -1,3 +1,4 @@
+// src/page/pricing.jsx
 import React from "react";
 export function Pricing() {
   return (
