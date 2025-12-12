@@ -1,170 +1,173 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { MapPin, Calendar, Clock, Users, Gift } from "lucide-react";
 
+/* --------------------------------------------- */
+/* PHONE MOCKUP */
+/* --------------------------------------------- */
 const PhoneMockup = ({ children }) => (
-  <div className="relative w-[280px] h-[560px] bg-gray-900 rounded-[40px] p-3 shadow-2xl border-2 border-gray-800">
-    {/* Notch */}
-    <div className="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-6 bg-gray-900 rounded-b-3xl z-10" />
-    {/* Screen */}
-    <div className="w-full h-full rounded-[32px] overflow-hidden">
+  <div className="relative w-[280px] h-[560px] bg-black rounded-[40px] p-4 shadow-2xl border-[6px] border-gray-900 flex items-center justify-center">
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-8 bg-black rounded-b-3xl z-20" />
+    <div className="w-full h-full rounded-[32px] overflow-y-auto overflow-x-hidden bg-white shadow-inner">
       {children}
     </div>
   </div>
 );
 
-const SaveTheDate = () => (
-  <div className="relative w-full h-full flex flex-col items-center justify-center p-8 bg-white text-center overflow-y-auto">
-    {/* Top left floral */}
-    <div className="absolute top-5 left-2 w-32 h-32 rounded-full opacity-70 bg-gradient-to-br from-yellow-300 via-blue-300 to-transparent" />
-    
-    {/* Bottom right floral */}
-    <div className="absolute bottom-5 right-2 w-32 h-32 rounded-full opacity-70 bg-gradient-to-tl from-yellow-300 via-blue-300 to-transparent" />
-    
-    <div className="flex justify-center">
-  {/* Phone frame */}
-  <div className="w-[380px] rounded-xl overflow-hidden shadow-lg relative">
+/* --------------------------------------------- */
+/* SAVE THE DATE INVITE */
+/* --------------------------------------------- */
+const SaveTheDate = () => {
+  const [isVisible, setIsVisible] = useState(false);
 
-    {/* Background section */}
-    <div
-      className="h-64 w-full bg-cover bg-center"
-      style={{ backgroundImage: "url('src/assets/invitattion_front/b5.jpg')" }}
-    >
-      {/* Optional overlay content */}
-    </div>
+  useEffect(() => {
+    const t = setTimeout(() => setIsVisible(true), 120);
+    return () => clearTimeout(t);
+  }, []);
 
-    <div className="text-center p-4">
-      <h1 className="text-xs tracking-[3px] text-blue-500 mb-4 font-serif uppercase">
-        SAVE the DATE
-      </h1>
+  return (
+    <div className="relative w-full min-h-full flex flex-col items-center justify-start bg-gradient-to-b from-white to-blue-50 pb-20">
 
-      <div className="text-4xl my-3" style={{ fontFamily: 'Brush Script MT, cursive' }}>
-        Marigold
+      {/* Floating hearts */}
+      {[...Array(4)].map((_, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: [0, 1, 0], y: [-10, -25, -10] }}
+          transition={{
+            duration: 3,
+            delay: i * 0.5,
+            repeat: Infinity
+          }}
+          className="absolute text-lg"
+          style={{
+            top: `${6 + i * 12}%`,
+            left: `${15 + i * 18}%`
+          }}
+        >
+          ❤️
+        </motion.div>
+      ))}
+
+      {/* Invitation Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 40 }}
+        transition={{ duration: 0.8 }}
+        className="w-full max-w-xs rounded-2xl overflow-hidden shadow-xl bg-white mt-8"
+      >
+        <div
+          className="h-64 w-full bg-cover bg-center"
+          style={{ backgroundImage: "url('src/assets/invitattion_front/b5.jpg')" }}
+        >
+          <div className="w-full h-full bg-gradient-to-t from-white/50 to-transparent" />
+        </div>
+
+        <div className="text-center p-5">
+          <h1 className="text-xs tracking-[4px] text-blue-600 mb-6 font-serif uppercase">
+            SAVE THE DATE
+          </h1>
+
+          <div
+            className="text-5xl mb-1 font-bold"
+            style={{ fontFamily: "Brush Script MT, cursive", color: "#1e40af" }}
+          >
+            Marigold
+          </div>
+
+          <div className="text-lg italic text-gray-500 mb-1">and</div>
+
+          <div
+            className="text-5xl font-bold"
+            style={{ fontFamily: "Brush Script MT, cursive", color: "#1e40af" }}
+          >
+            Keith
+          </div>
+
+          <div className="text-sm text-gray-600 mt-6 font-serif space-y-1">
+            <p className="font-semibold text-base">SEPTEMBER 11 2023</p>
+            <p>Saint Michael Church</p>
+            <p>London, UK</p>
+            <p className="pt-3 text-blue-600 font-medium">
+              Formal Attire Requested
+            </p>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* More Sections */}
+      <div className="w-full px-4 mt-8 space-y-6">
+        {/* DETAILS */}
+        <Section title="Wedding Details" icon={<Calendar className="w-5 h-5" />}>
+          <InfoRow icon={<Calendar />} title="Date" text="September 11, 2023" />
+          <InfoRow icon={<Clock />} title="Time" text="2:00 PM Ceremony" />
+        </Section>
+
+        {/* VENUE */}
+        <Section title="Venue" icon={<MapPin />}>
+          <div className="p-3 bg-blue-50 rounded-lg text-center">
+            <MapPin className="w-10 h-10 mx-auto text-blue-500 mb-2" />
+            <p className="font-semibold">Saint Michael Church</p>
+            <p className="text-sm text-gray-500">London, UK</p>
+          </div>
+        </Section>
+
+        {/* DRESS CODE */}
+        <Section title="Dress Code" icon={<Users />}>
+          <p className="text-center text-gray-600">Formal Attire</p>
+        </Section>
+
+        {/* RSVP */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          className="bg-blue-600 text-white p-6 rounded-xl text-center mb-12"
+        >
+          <h2 className="text-lg font-bold mb-2">Will You Join Us?</h2>
+          <p className="mb-4 text-sm">Kindly RSVP by August 25</p>
+
+          <button className="px-6 py-2 rounded-full bg-white text-blue-600 font-semibold shadow">
+            RSVP Now
+          </button>
+        </motion.div>
       </div>
-
-      <div className="text-base italic text-gray-600 my-2">and</div>
-
-      <div className="text-4xl my-3" style={{ fontFamily: 'Brush Script MT, cursive' }}>
-        Keith
-      </div>
-
-      <div className="text-[11px] text-gray-600 mt-5 leading-relaxed font-serif">
-        SEPTEMBER 11 2023<br />
-        Saint Michael Church<br />
-        London, UK<br />
-        Formal Attire to Follow
-      </div>
     </div>
+  );
+};
 
-  </div>
-</div>
-
-  </div>
-);
-
-const WeddingInvitation = () => (
-  <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-[#fdfbf9] text-center overflow-y-auto">
-    {/* Floral Wreath */}
-    <div className="w-48 h-48 rounded-full flex flex-col items-center justify-center p-8 my-5 relative">
-      <div className="absolute inset-0 rounded-full border-[3px] border-transparent bg-gradient-to-br from-pink-300 via-yellow-300 via-pink-400 to-orange-300 opacity-80" 
-           style={{ 
-             backgroundOrigin: 'border-box',
-             backgroundClip: 'border-box',
-           }} />
-      <div className="absolute inset-[3px] bg-[#fdfbf9] rounded-full" />
-      <div className="relative z-10 text-[#d4a574] text-base tracking-[3px] leading-loose font-serif">
-        <div>AMANDA</div>
-        <div>SMITH</div>
-        <div className="my-1">~&~</div>
-        <div>SIMON</div>
-        <div>WALKER</div>
-      </div>
+/* --------------------------------------------- */
+/* REUSABLE UI COMPONENTS */
+/* --------------------------------------------- */
+const Section = ({ title, icon, children }) => (
+  <div className="bg-white rounded-xl shadow p-4">
+    <div className="flex items-center mb-3">
+      <div className="p-2 bg-blue-100 rounded-lg mr-2">{icon}</div>
+      <h2 className="font-semibold text-gray-800">{title}</h2>
     </div>
-    
-    <div className="text-[10px] text-gray-500 my-4 leading-relaxed font-serif">
-      together with their families<br />
-      invite you to celebrate their wedding day
-    </div>
-    
-    <div className="text-[9px] text-gray-600 leading-relaxed mt-3 font-serif">
-      SATURDAY, SEPTEMBER 11 2024 | 6 pm<br />
-      Red Rock University Wedding and Event<br />
-      4315 Baumman Rd, Red Rock, TX
-    </div>
-    
-    <div className="text-[9px] text-gray-500 italic mt-4 font-serif">
-      reception to follow
-    </div>
-  </div>
-);
-
-const BridalShower = () => (
-  <div className="relative w-full h-full flex flex-col items-center justify-center p-8 bg-[#fef9f8] text-center overflow-y-auto">
-    {/* Top floral */}
-    <div className="absolute top-3 right-5 w-28 h-14 rounded-full opacity-60 bg-gradient-to-br from-pink-300 via-pink-200 to-transparent" />
-    
-    {/* Bottom floral */}
-    <div className="absolute bottom-3 left-5 w-28 h-14 rounded-full opacity-60 bg-gradient-to-tl from-pink-300 via-pink-200 to-transparent" />
-    
-    <div className="z-10">
-      <div className="text-[10px] text-gray-500 italic mb-3 font-serif">Please join us for a</div>
-      <h2 className="text-[42px] my-2 text-[#d4a574]" style={{ fontFamily: 'Brush Script MT, cursive' }}>bridal</h2>
-      <div className="text-lg tracking-[4px] text-[#d4a574] mb-4 font-serif">SHOWER</div>
-      
-      <div className="text-[10px] text-gray-500 italic my-2 font-serif">honoring</div>
-      <div className="text-sm tracking-[2px] text-gray-800 mb-4 font-serif">ISABELLA MILLER</div>
-      
-      <div className="text-[9px] text-gray-600 leading-relaxed font-serif">
-        Saturday, April 9 2022 | 2PM<br />
-        Earthworks House<br />
-        57 Charles Street, Mayfair London<br />
-        Greater London W1J 5EL
-      </div>
-      
-      <div className="text-[8px] text-gray-500 mt-4 leading-relaxed font-serif">
-        RSVP to Amy at 123 456 789<br />
-        by August 5th
-      </div>
-      
-      <div className="text-[8px] text-gray-500 italic mt-3 font-serif">
-        Isabella is registered at<br />
-        Crate and Barrel
-      </div>
-    </div>
-  </div>
-);
-
-const InvitationCard = ({ children, label }) => (
-  <div className="bg-white rounded-2xl p-10 shadow-2xl flex flex-col items-center transition-all duration-300 hover:-translate-y-3 hover:shadow-3xl">
     {children}
-    <button className="mt-8 px-10 py-4 border-2 border-gray-600 text-sm tracking-[2px] text-gray-600 uppercase bg-white transition-all duration-300 hover:bg-gray-600 hover:text-white cursor-pointer font-serif">
-      {label}
-    </button>
   </div>
 );
+
+const InfoRow = ({ icon, title, text }) => (
+  <div className="flex items-center mb-2 space-x-3">
+    <div className="text-blue-500">{icon}</div>
+    <div>
+      <p className="font-semibold">{title}</p>
+      <p className="text-sm text-gray-500">{text}</p>
+    </div>
+  </div>
+);
+
+/* --------------------------------------------- */
+/* MAIN EXPORT */
+/* --------------------------------------------- */
 
 export default function DigitalInvitations() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 flex items-center justify-center p-10">
-      <div className="max-w-7xl w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          <InvitationCard label="DIGITAL SAVE THE DATES">
-            <PhoneMockup>
-              <SaveTheDate />
-            </PhoneMockup>
-          </InvitationCard>
-          
-          <InvitationCard label="DIGITAL WEDDING INVITATIONS">
-            <PhoneMockup>
-              <WeddingInvitation />
-            </PhoneMockup>
-          </InvitationCard>
-          
-          <InvitationCard label="DIGITAL BRIDAL SHOWER INVITES">
-            <PhoneMockup>
-              <BridalShower />
-            </PhoneMockup>
-          </InvitationCard>
-        </div>
-      </div>
+      <PhoneMockup>
+        <SaveTheDate />
+      </PhoneMockup>
     </div>
   );
 }
